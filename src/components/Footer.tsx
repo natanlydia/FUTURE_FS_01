@@ -14,7 +14,7 @@ const Footer = () => {
                 Natan Ashebir
               </h3>
               <p className="text-muted-foreground mb-4">
-                Front-End Developer & UI/UX Designer crafting beautiful digital experiences
+                Software Developer, UI/UX Designer & Cvent Developer crafting beautiful digital experiences
               </p>
             </div>
 

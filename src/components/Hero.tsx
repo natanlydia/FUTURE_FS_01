@@ -23,7 +23,7 @@ const Hero = () => {
         <div className="max-w-4xl mx-auto text-center animate-fade-in-up">
           <div className="mb-6 inline-block">
             <span className="px-4 py-2 bg-primary/20 backdrop-blur-sm text-primary-foreground rounded-full text-sm font-medium border border-primary/30">
-              Fresh Graduate • Computer Science & Engineering
+            Computer Science & Engineering
             </span>
           </div>
           
@@ -36,11 +36,11 @@ const Hero = () => {
           </h1>
           
           <p className="text-xl md:text-2xl text-gray-100 mb-8 font-medium">
-            Front-End Developer & UI/UX Designer
+            Software Developer, UI/UX Designer, Cvent Developer 
           </p>
           
           <p className="text-lg text-gray-200 mb-12 max-w-2xl mx-auto leading-relaxed">
-            I'm a passionate Computer Science and Engineering graduate specializing in front-end development and UI/UX design. 
+            I'm a passionate Computer Science and Engineering graduate specializing in front-end development, web development, UI/UX design and Cvent development. 
             I love creating responsive, user-centered web experiences that bring ideas to life.
           </p>
           

@@ -33,15 +33,17 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      await emailjs.send(
+     await emailjs.send(
         'service_fnakmls',
         'template_n48pp4j',
         {
-          from_name: formData.name,
-          from_email: formData.email,
+          full_name: formData.name,
+          email: formData.email,
           message: formData.message,
         },
         'vNdIfpz6YvdX0PtHY'
+
+
       );
 
       toast({
