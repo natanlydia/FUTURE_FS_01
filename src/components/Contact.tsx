@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, Github, Linkedin, Send, MapPin } from "lucide-react";
-import emailjs from '@emailjs/browser';
+import { Mail, Phone, Github, Linkedin, Send, MapPin, Clock3, ShieldCheck } from "lucide-react";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -33,18 +32,34 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-     await emailjs.send(
-        'service_fnakmls',
-        'template_n48pp4j',
-        {
-          full_name: formData.name,
-          email: formData.email,
-          message: formData.message,
+      const apiUrl = import.meta.env.VITE_CONTACT_API_URL || "http://localhost:3001";
+      const response = await fetch(`${apiUrl}/api/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
         },
-        'vNdIfpz6YvdX0PtHY'
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message
+        })
+      });
 
+      if (!response.ok) {
+        throw new Error(`Request failed: ${response.status}`);
+      }
 
-      );
+      const result = await response.json();
+
+      if (result.emailSent === false) {
+        toast({
+          title: "Message Saved",
+          description: result.warning || "Your message was saved, but email delivery failed.",
+        });
+
+        setFormData({ name: "", email: "", message: "" });
+        return;
+      }
 
       toast({
         title: "Message Sent!",
@@ -53,7 +68,7 @@ const Contact = () => {
 
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
-      console.error('EmailJS error:', error);
+      console.error("Contact form request failed:", error);
       toast({
         title: "Error",
         description: "Failed to send message. Please try again or contact me directly.",
@@ -107,7 +122,7 @@ const Contact = () => {
 
           <div className="grid md:grid-cols-2 gap-12">
             {/* Contact Form */}
-            <Card className="p-8 animate-fade-in-up">
+            <Card className="p-8 animate-fade-in-up border-2 border-primary/15 bg-gradient-to-br from-card via-card to-primary/5 shadow-xl">
               <h3 className="text-2xl font-bold mb-6">Send a Message</h3>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -156,6 +171,28 @@ const Contact = () => {
                   <Send className="w-4 h-4 mr-2" />
                   {isSubmitting ? "Sending..." : "Send Message"}
                 </Button>
+
+                <div className="grid gap-3 rounded-2xl border border-primary/15 bg-gradient-to-r from-primary/8 via-secondary/10 to-accent/10 p-4 sm:grid-cols-2">
+                  <div className="flex items-start gap-3 rounded-xl bg-background/80 p-3 backdrop-blur-sm">
+                    <div className="rounded-lg bg-primary/10 p-2 text-primary">
+                      <Clock3 className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold">Fast replies</p>
+                      <p className="text-sm text-muted-foreground">Usually within 24 hours for project and freelance inquiries.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 rounded-xl bg-background/80 p-3 backdrop-blur-sm">
+                    <div className="rounded-lg bg-accent/10 p-2 text-accent">
+                      <ShieldCheck className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold">Direct inbox delivery</p>
+                      <p className="text-sm text-muted-foreground">Your message lands in my inbox and is also saved securely.</p>
+                    </div>
+                  </div>
+                </div>
               </form>
             </Card>
 
